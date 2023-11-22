@@ -2,6 +2,7 @@ package com.cg.controller;
 
 import com.cg.model.*;
 import com.cg.service.customer.ICustomerService;
+import com.cg.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +19,17 @@ public class CustomerController {
     @Autowired
     private ICustomerService customerService;
 
+    @Autowired
+    private AppUtils appUtils;
+
     @GetMapping
     public String showListPage(Model model) {
         List<Customer> customers = customerService.findAll();
         model.addAttribute("customers", customers);
+
+        String username = appUtils.getPrincipalUsername();
+
+        model.addAttribute("username", username);
 
         return "customer/list";
     }
